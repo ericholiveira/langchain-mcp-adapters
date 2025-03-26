@@ -13,6 +13,7 @@ from mcp.types import (
 from langchain_mcp_adapters.prompts import (
     convert_mcp_prompt_message_to_langchain_message,
     load_mcp_prompt,
+    list_prompts,
 )
 
 
@@ -73,3 +74,10 @@ async def test_load_mcp_prompt():
     assert result[0].content == "Hello"
     assert isinstance(result[1], AIMessage)
     assert result[1].content == "Hi"
+
+@pytest.mark.asyncio
+async def test_list_prompts():
+    session = AsyncMock()
+    session.list_prompts = AsyncMock(return_value=AsyncMock(prompts=["test_prompt"]))
+    result = await list_prompts(session)
+    assert result.prompts == ["test_prompt"]

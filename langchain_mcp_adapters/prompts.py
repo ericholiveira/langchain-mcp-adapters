@@ -26,6 +26,10 @@ def convert_mcp_prompt_message_to_langchain_message(
 
     raise ValueError(f"Unsupported prompt message content type: {message.content.type}")
 
+async def list_prompts(session: ClientSession) -> list[str]:
+    """List all available MCP prompts."""
+    prompts = await session.list_prompts()
+    return prompts
 
 async def load_mcp_prompt(
     session: ClientSession, name: str, arguments: Optional[dict[str, Any]] = None
